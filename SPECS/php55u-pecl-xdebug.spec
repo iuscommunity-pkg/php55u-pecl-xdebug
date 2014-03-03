@@ -7,8 +7,8 @@
 %global php_base php55u
 
 Name:           %{php_base}-pecl-xdebug
-Version:        2.2.3
-Release:        2.ius%{?dist}
+Version:        2.2.4
+Release:        1.ius%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
 License:        BSD
@@ -129,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 03 2014 Ben Harper <ben.harper@rackspace.com> - 2.2.4-1.ius
+- Latest sources from upstream
+
 * Fri Jan 24 2014 Ben Harper <ben.harper@rackspace.com> - 2.2.3-2.ius
 - porting from php54-pecl-xdebug
 
