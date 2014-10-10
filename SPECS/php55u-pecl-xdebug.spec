@@ -39,8 +39,22 @@ Conflicts:      php-pecl-%{pecl_name} < %{version}
 
 
 %description
-The Xdebug extension helps you debugging your script by providing a lot
-of valuable debug information.
+The Xdebug extension helps you debugging your script by providing a lot of
+valuable debug information. The debug information that Xdebug can provide
+includes the following:
+
+* stack and function traces in error messages with:
+  o full parameter display for user defined functions
+  o function name, file name and line indications
+  o support for member functions
+* memory allocation
+* protection for infinite recursions
+
+Xdebug also provides:
+
+* profiling information for PHP scripts
+* code coverage analysis
+* capabilities to debug your scripts interactively with a debug client
 
 
 %prep
