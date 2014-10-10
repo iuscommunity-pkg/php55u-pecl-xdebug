@@ -1,49 +1,27 @@
-%global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
 %{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
 %{!?php_extdir: %{expand: %%global php_extdir %(php-config --extension-dir)}}
 
 %define pecl_name xdebug
-
+%define config_flags --without-libedit
 %global php_base php55u
 
 Name:           %{php_base}-pecl-xdebug
 Version:        2.2.5
 Release:        1.ius%{?dist}
 Summary:        PECL package for debugging PHP scripts
-
 License:        BSD
 Group:          Development/Languages
 URL:            http://pecl.php.net/package/xdebug
 Source0:        http://pecl.php.net/get/xdebug-%{version}.tgz
-
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  %{php_base}-devel %{php_base}-pear
-
-# to force use of autoconf and not autoconf26x
-%if 0%{?rhel} >= 6
-BuildRequires: autoconf
-%else
-BuildRequires: autoconf < 2.63
-%endif
-
-%if 0%{?fedora}
-%define config_flags --with-libedit
-BuildRequires:  libedit-devel
-%else
-%define config_flags --without-libedit
-%endif
+BuildRequires:  autoconf
 
 Requires(post): %{__pecl}
 Requires(postun): %{__pecl}
-
 Provides:       php-pecl(Xdebug) = %{version}
-
-%if 0%{?php_zend_api}
 Requires:       %{php_base}(zend-abi) = %{php_zend_api}
 Requires:       %{php_base}(api) = %{php_core_api}
-%else
-Requires:       %{php_base}-api = %{php_apiver}
-%endif
+
 
 %description
 The Xdebug extension helps you debugging your script by providing a lot
@@ -78,7 +56,6 @@ popd
 
 %install
 cd xdebug-%{version}
-rm -rf $RPM_BUILD_ROOT
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # install debugclient
@@ -115,12 +92,7 @@ fi
 %endif
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %files
-%defattr(-,root,root,-)
 %doc xdebug-%{version}/docs/*
 %config(noreplace) %{_sysconfdir}/php.d/xdebug.ini
 %{php_extdir}/xdebug.so
