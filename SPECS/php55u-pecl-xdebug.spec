@@ -141,6 +141,19 @@ do install -Dpm 644 NTS/$i %{buildroot}%{pecl_docdir}/%{pecl_name}/$i
 done
 
 
+%check
+# only check if build extension can be loaded
+%{_bindir}/php \
+    --no-php-ini \
+    --define zend_extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
+    --modules | grep Xdebug
+
+%{_bindir}/zts-php \
+    --no-php-ini \
+    --define zend_extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so \
+    --modules | grep Xdebug
+
+
 %post
 %{pecl_install} %{pecl_xmldir}/%{name}.xml >/dev/null || :
 
