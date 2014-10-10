@@ -24,7 +24,18 @@ Requires(postun): %{php_base}-pear
 Requires:       %{php_base}(zend-abi) = %{php_zend_api}
 Requires:       %{php_base}(api) = %{php_core_api}
 
+Provides:       php-%{pecl_name} = %{version}
+Provides:       php-%{pecl_name}%{?_isa} = %{version}
+Provides:       php-pecl-%{pecl_name} = %{version}
+Provides:       php-pecl-%{pecl_name}%{?_isa} = %{version}
 Provides:       php-pecl(Xdebug) = %{version}
+Provides:       php-pecl(Xdebug)%{?_isa} = %{version}
+Provides:       %{php_base}-%{pecl_name} = %{version}
+Provides:       %{php_base}-%{pecl_name}%{?_isa} = %{version}
+Provides:       %{php_base}-pecl(Xdebug) = %{version}
+Provides:       %{php_base}-pecl(Xdebug)%{?_isa} = %{version}
+
+Conflicts:      php-pecl-%{pecl_name} < %{version}
 
 
 %description
