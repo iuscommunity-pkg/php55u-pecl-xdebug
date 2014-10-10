@@ -62,53 +62,80 @@ Xdebug also provides:
 
 
 %prep
-%setup -qcn xdebug-%{version}
-[ -f package2.xml ] || mv package.xml package2.xml
-mv package2.xml %{pecl_name}-%{version}/%{pecl_name}.xml
-cd xdebug-%{version}
+%setup -qc
+mv %{pecl_name}-%{version} NTS
+cd NTS
 
-# fix rpmlint warnings
-#iconv -f iso8859-1 -t utf-8 Changelog > Changelog.conv && mv -f Changelog.conv Changelog
-#chmod -x *.[ch]
+# Check extension version
+ver=$(sed -n '/XDEBUG_VERSION/{s/.* "//;s/".*$//;p}' php_xdebug.h)
+if test "$ver" != "%{version}"; then
+   : Error: Upstream XDEBUG_VERSION version is ${ver}, expecting %{version}.
+   exit 1
+fi
+
+cd ..
+
+# Duplicate source tree for NTS / ZTS build
+cp -pr NTS ZTS
 
 
 %build
-cd xdebug-%{version}
-phpize
-%configure --enable-xdebug
-CFLAGS="$RPM_OPT_FLAGS" make
+cd NTS
+%{_bindir}/phpize
+%configure \
+    --enable-xdebug  \
+    --with-php-config=%{_bindir}/php-config
+make %{?_smp_mflags}
 
 # Build debugclient
 pushd debugclient
-cp %{_datadir}/automake*/depcomp .
-chmod +x configure
+./buildconf
 %configure %{config_flags}
-CFLAGS="$RPM_OPT_FLAGS" make
+make %{?_smp_mflags}
 popd
+
+cd ../ZTS
+%{_bindir}/zts-phpize
+%configure \
+    --enable-xdebug  \
+    --with-php-config=%{_bindir}/zts-php-config
+make %{?_smp_mflags}
 
 
 %install
-cd xdebug-%{version}
-make install INSTALL_ROOT=$RPM_BUILD_ROOT
+# install NTS extension
+make -C NTS install INSTALL_ROOT=%{buildroot}
 
 # install debugclient
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -pm 755 debugclient/debugclient $RPM_BUILD_ROOT%{_bindir}
+install -Dpm 755 NTS/debugclient/debugclient \
+        %{buildroot}%{_bindir}/debugclient
+
+# install package registration file
+install -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
 
 # install config file
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/xdebug.ini << 'EOF'
+install -d %{buildroot}%{php_inidir}
+cat << 'EOF' | tee %{buildroot}%{php_inidir}/%{ini_name}
 ; Enable xdebug extension module
-zend_extension=%{php_extdir}/xdebug.so
+zend_extension=%{pecl_name}.so
+
+; see http://xdebug.org/docs/all_settings
+EOF
+
+# Install ZTS extension
+make -C ZTS install INSTALL_ROOT=%{buildroot}
+
+install -d %{buildroot}%{php_ztsinidir}
+cat << 'EOF' | tee %{buildroot}%{php_ztsinidir}/%{ini_name}
+; Enable xdebug extension module
+zend_extension=%{pecl_name}.so
+
+; see http://xdebug.org/docs/all_settings
 EOF
 
 # install doc files
 install -d docs
 install -pm 644 CREDITS LICENSE NEWS README docs
-
-# Install XML package description
-install -d $RPM_BUILD_ROOT%{pecl_xmldir}
-install -pm 644 %{pecl_name}.xml $RPM_BUILD_ROOT%{pecl_xmldir}/%{name}.xml
 
 
 %if 0%{?pecl_install:1}
