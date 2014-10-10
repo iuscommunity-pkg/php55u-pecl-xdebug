@@ -133,9 +133,10 @@ zend_extension=%{pecl_name}.so
 ; see http://xdebug.org/docs/all_settings
 EOF
 
-# install doc files
-install -d docs
-install -pm 644 CREDITS LICENSE NEWS README docs
+# Test & Documentation
+for i in $(grep 'role="doc"' package.xml | sed -e 's/^.*name="//;s/".*$//')
+do install -Dpm 644 NTS/$i %{buildroot}%{pecl_docdir}/%{pecl_name}/$i
+done
 
 
 %if 0%{?pecl_install:1}
@@ -153,7 +154,7 @@ fi
 
 
 %files
-%doc xdebug-%{version}/docs/*
+%doc %{pecl_docdir}/%{pecl_name}
 %config(noreplace) %{_sysconfdir}/php.d/xdebug.ini
 %{php_extdir}/xdebug.so
 %{_bindir}/debugclient
