@@ -1,6 +1,8 @@
 %global pecl_name xdebug
 %define config_flags --without-libedit
 %global php_base php55u
+# XDebug should be loaded after opcache
+%global ini_name  15-%{pecl_name}.ini
 
 Name:           %{php_base}-pecl-xdebug
 Summary:        PECL package for debugging PHP scripts
@@ -155,10 +157,12 @@ fi
 
 %files
 %doc %{pecl_docdir}/%{pecl_name}
-%config(noreplace) %{_sysconfdir}/php.d/xdebug.ini
-%{php_extdir}/xdebug.so
+%config(noreplace) %{php_inidir}/%{ini_name}
+%{php_extdir}/%{pecl_name}.so
 %{_bindir}/debugclient
 %{pecl_xmldir}/%{name}.xml
+%config(noreplace) %{php_ztsinidir}/%{ini_name}
+%{php_ztsextdir}/%{pecl_name}.so
 
 
 %changelog
