@@ -16,8 +16,8 @@ Source0:        http://pecl.php.net/get/xdebug-%{version}.tgz
 BuildRequires:  %{php_base}-devel %{php_base}-pear
 BuildRequires:  autoconf
 
-Requires(post): %{__pecl}
-Requires(postun): %{__pecl}
+Requires(post): %{php_base}-pear
+Requires(postun): %{php_base}-pear
 Provides:       php-pecl(Xdebug) = %{version}
 Requires:       %{php_base}(zend-abi) = %{php_zend_api}
 Requires:       %{php_base}(api) = %{php_core_api}
