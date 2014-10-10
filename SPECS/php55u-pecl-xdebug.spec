@@ -37,6 +37,10 @@ Provides:       %{php_base}-pecl(Xdebug)%{?_isa} = %{version}
 
 Conflicts:      php-pecl-%{pecl_name} < %{version}
 
+# Filter private shared
+%{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
+%{?filter_setup}
+
 
 %description
 The Xdebug extension helps you debugging your script by providing a lot of
