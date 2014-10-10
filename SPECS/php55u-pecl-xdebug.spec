@@ -1,5 +1,4 @@
 %global pecl_name xdebug
-%define config_flags --without-libedit
 %global php_base php55u
 # XDebug should be loaded after opcache
 %global ini_name  15-%{pecl_name}.ini
@@ -18,7 +17,8 @@ URL:            http://xdebug.org/
 
 BuildRequires:  %{php_base}-pear
 BuildRequires:  %{php_base}-devel
-BuildRequires:  autoconf
+BuildRequires:  libedit-devel
+BuildRequires:  libtool
 
 Requires(post): %{php_base}-pear
 Requires(postun): %{php_base}-pear
@@ -92,7 +92,7 @@ make %{?_smp_mflags}
 # Build debugclient
 pushd debugclient
 ./buildconf
-%configure %{config_flags}
+%configure --with-libedit
 make %{?_smp_mflags}
 popd
 
@@ -186,6 +186,7 @@ fi
 - Fix License which is PHP, with some renaming
 - Add filter_provides to avoid private-shared-object-provides xdebug.so
 - Add minimal load test
+- Build with libedit
 
 * Wed Apr 30 2014 Carl George <carl.george@rackspace.com> - 2.2.5-1.ius
 - Latest sources from upstream
