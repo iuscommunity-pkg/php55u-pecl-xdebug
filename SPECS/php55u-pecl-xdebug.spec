@@ -1,26 +1,30 @@
-%{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
-%{!?php_extdir: %{expand: %%global php_extdir %(php-config --extension-dir)}}
-
-%define pecl_name xdebug
+%global pecl_name xdebug
 %define config_flags --without-libedit
 %global php_base php55u
 
 Name:           %{php_base}-pecl-xdebug
+Summary:        PECL package for debugging PHP scripts
 Version:        2.2.5
 Release:        1.ius%{?dist}
-Summary:        PECL package for debugging PHP scripts
-License:        BSD
+Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
+
+# The Xdebug License, version 1.01
+# (Based on "The PHP License", version 3.0)
+License:        PHP
 Group:          Development/Languages
-URL:            http://pecl.php.net/package/xdebug
-Source0:        http://pecl.php.net/get/xdebug-%{version}.tgz
-BuildRequires:  %{php_base}-devel %{php_base}-pear
+URL:            http://xdebug.org/
+
+BuildRequires:  %{php_base}-pear
+BuildRequires:  %{php_base}-devel
 BuildRequires:  autoconf
 
 Requires(post): %{php_base}-pear
 Requires(postun): %{php_base}-pear
-Provides:       php-pecl(Xdebug) = %{version}
+
 Requires:       %{php_base}(zend-abi) = %{php_zend_api}
 Requires:       %{php_base}(api) = %{php_core_api}
+
+Provides:       php-pecl(Xdebug) = %{version}
 
 
 %description
