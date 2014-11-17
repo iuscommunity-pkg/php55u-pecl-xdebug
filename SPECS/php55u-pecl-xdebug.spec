@@ -5,8 +5,8 @@
 
 Name:           %{php_base}-pecl-xdebug
 Summary:        PECL package for debugging PHP scripts
-Version:        2.2.5
-Release:        2.ius%{?dist}
+Version:        2.2.6
+Release:        1.ius%{?dist}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 # The Xdebug License, version 1.01
@@ -175,6 +175,9 @@ fi
 
 
 %changelog
+* Mon 17 Nov 2014 Carl George <carl.george@rackspace.com> - 2.2.6-1.ius
+- Latest sources from upstream
+
 * Fri Oct 10 2014 Carl George <carl.george@rackspace.com> - 2.2.5-2.ius
 - Directly require the correct pear package, not /usr/bin/pecl
 - Conflict with stock package
