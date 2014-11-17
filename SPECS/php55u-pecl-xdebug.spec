@@ -175,7 +175,7 @@ fi
 
 
 %changelog
-* Mon 17 Nov 2014 Carl George <carl.george@rackspace.com> - 2.2.6-1.ius
+* Mon Nov 17 2014 Carl George <carl.george@rackspace.com> - 2.2.6-1.ius
 - Latest sources from upstream
 
 * Fri Oct 10 2014 Carl George <carl.george@rackspace.com> - 2.2.5-2.ius
