@@ -5,7 +5,7 @@
 
 Name:           %{php_base}-pecl-xdebug
 Summary:        PECL package for debugging PHP scripts
-Version:        2.3.1
+Version:        2.3.2
 Release:        1.ius%{?dist}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
@@ -175,6 +175,9 @@ fi
 
 
 %changelog
+* Mon Mar 23 2015 Carl George <carl.george@rackspace.com> - 2.3.2-1.ius
+- Latest upstream
+
 * Thu Mar 05 2015 Ben Harper <ben.harper@rackspace.com> - 2.3.1-1.ius
 - Latest upstream
 
