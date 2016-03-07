@@ -47,8 +47,10 @@ Provides:       %{php_base}-pecl(Xdebug)%{?_isa} = %{version}
 Conflicts:      php-pecl-%{pecl_name} < %{version}
 
 # Filter private shared
+%if 0%{?fedora} < 20 && 0%{?rhel} < 7
 %{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
 %{?filter_setup}
+%endif
 
 
 %description
@@ -196,6 +198,7 @@ fi
 * Mon Mar 07 2016 Carl George <carl.george@rackspace.com> - 2.4.0-1.ius
 - Latest upstream
 - Include license
+- Only manually filter provides when < EL7
 
 * Mon Jun 22 2015 Carl George <carl.george@rackspace.com> - 2.3.3-1.ius
 - Latest upstream
