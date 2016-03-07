@@ -255,7 +255,7 @@ fi
 * Fri May 11 2012 Dustin Henry Offutt <dustin.offutt@rackspace.com> 2.2.0-2
 - Build for php54
 
-* Wed May 05 2012 Dustin Henry Offutt <dustin.offutt@rackspace.com> 2.2.0-1
+* Sat May 05 2012 Dustin Henry Offutt <dustin.offutt@rackspace.com> 2.2.0-1
 - Latest sources from upstream
 - Remove expectation of file "Changelog" which file "NEWS" now covers, according to the pecl-xdebug project (http://bugs.xdebug.org/view.php?id=828)
 
