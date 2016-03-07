@@ -180,6 +180,7 @@ fi
 
 
 %files
+%license NTS/LICENSE
 %doc %{pecl_docdir}/%{pecl_name}
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
@@ -194,6 +195,7 @@ fi
 %changelog
 * Mon Mar 07 2016 Carl George <carl.george@rackspace.com> - 2.4.0-1.ius
 - Latest upstream
+- Include license
 
 * Mon Jun 22 2015 Carl George <carl.george@rackspace.com> - 2.3.3-1.ius
 - Latest upstream
